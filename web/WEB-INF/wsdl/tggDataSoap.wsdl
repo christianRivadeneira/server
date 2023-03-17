@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://ws.tiaxa.net/tggDataSoapService/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/" 
+                  name="tggDataSoapService" 
+                  targetNamespace="http://ws.tiaxa.net/tggDataSoapService/">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.tiaxa.net/tggDataSoapService/">
+			<xsd:complexType name="sendMessageRequest">
+				<xsd:sequence>
+					<xsd:element name="subscriber"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="sender"         type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receiptRequest" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="dataCoding"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="message"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="sendMessageResponse">
+				<xsd:sequence>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="resultCode"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="operationId"    type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="sendMessageRequest" type="tns:sendMessageRequest"/>
+			<xsd:element name="sendMessageResponse" type="tns:sendMessageResponse"/>
+
+			<xsd:complexType name="getReceivedMessageRequest">
+				<xsd:sequence>
+					<xsd:element name="service"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="rowMessage">
+				<xsd:sequence>
+					<xsd:element name="service"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receivedTime"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receivedTimeGMT"   type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="country"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="sender"            type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="type"              type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="message"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="operationId"       type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="getReceivedMessageResponse">
+				<xsd:sequence>
+					<xsd:element name="requestId"         type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="resultCode"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="aditionalMessages" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="rowsList"          type="tns:rowMessage" maxOccurs="unbounded" minOccurs="0" nillable="true"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="getReceivedMessageRequest"         type="tns:getReceivedMessageRequest"/>
+			<xsd:element name="getReceivedMessageResponse"        type="tns:getReceivedMessageResponse"/>
+
+			<xsd:complexType name="sendMessageCompRequest">
+				<xsd:sequence>
+					<xsd:element name="subscriber"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="sender"         type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="companyId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receiptRequest" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="dataCoding"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="message"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="sendMessageCompResponse">
+				<xsd:sequence>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="resultCode"     type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="operationId"    type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="sendMessageCompRequest" type="tns:sendMessageCompRequest"/>
+			<xsd:element name="sendMessageCompResponse" type="tns:sendMessageCompResponse"/>
+
+			<xsd:complexType name="getReceivedMessageCompRequest">
+				<xsd:sequence>
+					<xsd:element name="service"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="company"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="requestId"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="rowMessageComp">
+				<xsd:sequence>
+					<xsd:element name="service"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receivedTime"      type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="receivedTimeGMT"   type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="country"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="sender"            type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="type"              type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="message"           type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="operationId"       type="xsd:string" maxOccurs="1" minOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="getReceivedMessageCompResponse">
+				<xsd:sequence>
+					<xsd:element name="requestId"         type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="resultCode"        type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="aditionalMessages" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+					<xsd:element name="rowsList"          type="tns:rowMessageComp" maxOccurs="unbounded" minOccurs="0" nillable="true"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="getReceivedMessageCompRequest"         type="tns:getReceivedMessageCompRequest"/>
+			<xsd:element name="getReceivedMessageCompResponse"        type="tns:getReceivedMessageCompResponse"/>
+
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="sendMessageInputMessage">
+		<wsdl:part name="sendMessageInputPart" element="tns:sendMessageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="sendMessageOutputMessage">
+		<wsdl:part name="sendMessageOutputPart" element="tns:sendMessageResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getReceivedMessageInputMessage">
+		<wsdl:part name="getReceivedMessageInputPart" element="tns:getReceivedMessageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getReceivedMessageOutputMessage">
+		<wsdl:part name="getReceivedMessageOutputPart" element="tns:getReceivedMessageResponse"/>
+	</wsdl:message>
+	<wsdl:message name="sendMessageCompInputMessage">
+		<wsdl:part name="sendMessageCompInputPart" element="tns:sendMessageCompRequest"/>
+	</wsdl:message>
+	<wsdl:message name="sendMessageCompOutputMessage">
+		<wsdl:part name="sendMessageCompOutputPart" element="tns:sendMessageCompResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getReceivedMessageCompInputMessage">
+		<wsdl:part name="getReceivedMessageCompInputPart" element="tns:getReceivedMessageCompRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getReceivedMessageCompOutputMessage">
+		<wsdl:part name="getReceivedMessageCompOutputPart" element="tns:getReceivedMessageCompResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="tggDataPortType">
+		<wsdl:operation name="sendMessage">
+			<wsdl:input name="sendMessageInput" message="tns:sendMessageInputMessage"/>
+			<wsdl:output name="sendMessageOutput" message="tns:sendMessageOutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getReceivedMessage">
+			<wsdl:input name="getReceivedMessageInput" message="tns:getReceivedMessageInputMessage"/>
+			<wsdl:output name="getReceivedMessageOutput" message="tns:getReceivedMessageOutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="sendMessageComp">
+			<wsdl:input name="sendMessageCompInput" message="tns:sendMessageCompInputMessage"/>
+			<wsdl:output name="sendMessageCompOutput" message="tns:sendMessageCompOutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getReceivedMessageComp">
+			<wsdl:input name="getReceivedMessageCompInput" message="tns:getReceivedMessageCompInputMessage"/>
+			<wsdl:output name="getReceivedMessageCompOutput" message="tns:getReceivedMessageCompOutputMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="tggDataBinding" type="tns:tggDataPortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="sendMessage">
+			<soap:operation soapAction="http://ws.tiaxa.net/tggDataSoapService/sendMessage"/>
+			<wsdl:input name="sendMessageInput">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="sendMessageOutput">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getReceivedMessage">
+			<soap:operation soapAction="http://ws.tiaxa.net/tggDataSoapService/getReceivedMessage"/>
+			<wsdl:input name="getReceivedMessageInput">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getReceivedMessageOutput">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendMessageComp">
+			<soap:operation soapAction="http://ws.tiaxa.net/tggDataSoapService/sendMessageComp"/>
+			<wsdl:input name="sendMessageCompInput">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="sendMessageCompOutput">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getReceivedMessageComp">
+			<soap:operation soapAction="http://ws.tiaxa.net/tggDataSoapService/getReceivedMessageComp"/>
+			<wsdl:input name="getReceivedMessageCompInput">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getReceivedMessageCompOutput">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="tggDataService">
+		<wsdl:port name="tggDataPort" binding="tns:tggDataBinding">
+			<soap:address location="http://192.168.210.54:4004/tggDataSoap"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

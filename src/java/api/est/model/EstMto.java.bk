@@ -1,0 +1,84 @@
+package api.est.model;
+
+import api.BaseModel;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.util.Date;
+import java.util.List;
+import utilities.MySQLQuery;
+
+public class EstMto extends BaseModel<EstMto> implements Serializable {
+
+//inicio zona de reemplazo
+    public Date progDate;
+    public Date execDate;
+    public String type;
+    public String notes;
+    public Integer tankId;
+
+    @Override
+    protected String[] getFlds() {
+        return new String[]{
+            "prog_date",
+            "exec_date",
+            "type",
+            "notes",
+            "tank_id",};
+    }
+
+    @Override
+    protected void prepareQuery(MySQLQuery q) {
+        q.setParam(1, progDate);
+        q.setParam(2, execDate);
+        q.setParam(3, type);
+        q.setParam(4, notes);
+        q.setParam(5, tankId);
+    }
+
+    @Override
+    public void setRow(Object[] row) throws Exception {
+        progDate = MySQLQuery.getAsDate(row[0]);
+        execDate = MySQLQuery.getAsDate(row[1]);
+        type = MySQLQuery.getAsString(row[2]);
+        notes = MySQLQuery.getAsString(row[3]);
+        tankId = MySQLQuery.getAsInteger(row[4]);
+        id = MySQLQuery.getAsInteger(row[row.length - 1]);
+    }
+
+    @Override
+    protected String getTblName() {
+        return "crm_task";
+    }
+
+    public static String getSelFlds(String alias) {
+        return new EstMto().getSelFldsForAlias(alias);
+    }
+
+    public static List<EstMto> getList(MySQLQuery q, Connection conn) throws Exception {
+        return new EstMto().getListFromQuery(q, conn);
+    }
+
+    public static void delete(int id, Connection conn) throws Exception {
+        new EstMto().deleteById(id, conn);
+    }
+
+    public static List<EstMto> getAll(Connection conn) throws Exception {
+        return new EstMto().getAllList(conn);
+    }
+
+//fin zona de reemplazo
+    public String getEnumOptions(String fieldName) {
+        if (fieldName.equals("type")) {
+            return "tot=Total&par=Parcial&other=Otro";
+        }
+        return null;
+    }
+
+    public String[][] getEnumOptionsAsMatrix(String fieldName) {
+        if (fieldName.equals("type")) {
+            return getEnumStrAsMatrix("tot=Total&par=Parcial&other=Otro");
+        }
+        return null;
+    }
+
+}

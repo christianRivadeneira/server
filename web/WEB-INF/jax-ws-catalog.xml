@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://www.gestormensajeriaadmin.com/RA/tggDataSoap?wsdl" uri="wsdl/www.gestormensajeriaadmin.com/RA/tggDataSoap.wsdl"/>
+    <system systemId="file:/C:/Users/Programador%20Tic01/Documents/NetBeansProjects/sigma/server/src/conf/xml-resources/web-service-references/tggDataSoap/wsdl/www.gestormensajeriaadmin.com/RA/tggDataSoap.wsdl" uri="wsdl/tggDataSoap.wsdl"/>
+    <system systemId="file:/C:/Users/sistemas/Documents/NetBeansProjects/sigma/server/src/conf/xml-resources/web-service-references/tggDataSoap/wsdl/www.gestormensajeriaadmin.com/RA/tggDataSoap.wsdl" uri="wsdl/tggDataSoap.wsdl"/>
+</catalog>

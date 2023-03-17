@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_sigma_rootPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="sigma"/>
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/sigma?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="sigma" object-type="user" pool-name="mysql_sigma_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="sigmads" object-type="user" pool-name="mysql_sigma_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="ssds" object-type="user" pool-name="mysql_sigma_rootPool"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_pasto" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_pasto"/> <!-- (1) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_pasto?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="billing_pasto" object-type="user" pool-name="mysql_billing_pasto"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_ipiales" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_ipiales"/> <!-- (2) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_ipiales?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="billing_ipiales" object-type="user" pool-name="mysql_billing_ipiales"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_sandona_sur" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_sandona_sur"/> <!-- (3) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_sandona_sur?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="billing_sandona_sur" object-type="user" pool-name="mysql_billing_sandona_sur"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_contadero_net" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_contadero_net"/> <!-- (4) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_contadero_net?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="billing_aldana_net" object-type="user" pool-name="mysql_billing_contadero_net"/>
+       <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_contadero_net" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_aldana_net"/> <!-- (5) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_aldana_net?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+
+    <jdbc-resource enabled="true" jndi-name="billing_tuquerres" object-type="user" pool-name="mysql_billing_tuquerres"/>
+       <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_tuquerres" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_tuquerres"/> <!-- (6) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_tuquerres?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_pitalito" object-type="user" pool-name="mysql_billing_pitalito"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_pitalito" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_pitalito"/> <!-- (7) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_pitalito?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_buesaco" object-type="user" pool-name="mysql_billing_buesaco"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_buesaco" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_buesaco"/> <!-- (8) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_buesaco?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_capacitacion_pruebas" object-type="user" pool-name="mysql_billing_capacitacion_pruebas"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_capacitacion_pruebas" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_capacitacion_pruebas"/> <!-- (9) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_capacitacion_pruebas?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_chachagui" object-type="user" pool-name="mysql_billing_chachagui"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_chachagui" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_chachagui"/> <!-- (10) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_chachagui?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_iles_net" object-type="user" pool-name="mysql_billing_iles_net"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_iles_net" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_iles_net"/> <!-- (11) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_iles_net?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_sandona" object-type="user" pool-name="mysql_billing_sandona"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_sandona" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_sandona"/> <!-- (12) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_sandona?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_sibundoy" object-type="user" pool-name="mysql_billing_sibundoy"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_sibundoy" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_sibundoy"/> <!-- (13) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_sibundoy?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_tumaco" object-type="user" pool-name="mysql_billing_tumaco"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_tumaco" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_tumaco"/> <!-- (14) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_tumaco?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource enabled="true" jndi-name="billing_aldana_net" object-type="user" pool-name="mysql_billing_aldana_net"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_aldana_net" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_aldana_net"/> <!-- (15) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_aldana_net?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="billing_chachagui2" object-type="user" pool-name="mysql_billing_chachagui2"/>
+    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_billing_chachagui2" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+        <property name="serverName" value="172.16.1.105"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="billing_chachagui2"/> <!-- (16) tabla identificada  -->
+        <property name="User" value="root"/>
+        <property name="Password" value="mygas2017rt"/>
+        <property name="URL" value="jdbc:mysql://172.16.1.105:3306/billing_chachagui2?zeroDateTimeBehavior=convertToNull"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+    </jdbc-connection-pool>
+</resources>

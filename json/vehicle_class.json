@@ -1,0 +1,59 @@
+{
+    "name": "vehicle_class",
+    "plural": "Clases de Veh\u00EDculo",
+    "singular": "Clase de Veh\u00EDculo",
+    "male": false,
+    "alias": "vc",
+    "module": "mto",
+    "fields": [{
+            "id": "vehicle_class-id",
+            "tblName": "vehicle_class",
+            "name": "id",
+            "label": null,
+            "fk": false,
+            "pk": true,
+            "nullable": false,
+            "type": "INTEGER",
+            "format": null,
+            "fkTblName": null,
+            "emunOpts": null,
+            "validations": []
+        }, {
+            "id": "vehicle_class-name",
+            "tblName": "vehicle_class",
+            "name": "name",
+            "label": "Nombre",
+            "fk": false,
+            "pk": false,
+            "nullable": false,
+            "type": "TEXT",
+            "format": "TYPE_TEXT",
+            "fkTblName": null,
+            "emunOpts": null,
+            "validations": [{
+                    "type": "MAX",
+                    "len": 64,
+                    "mask": null
+                }]
+        }, {
+            "id": "vehicle_class-active",
+            "tblName": "vehicle_class",
+            "name": "active",
+            "label": "Activo",
+            "fk": false,
+            "pk": false,
+            "nullable": false,
+            "type": "BOOLEAN",
+            "format": "TYPE_BOOLEAN",
+            "fkTblName": null,
+            "emunOpts": null,
+            "validations": []
+        }],
+    "toStrFldIds": ["vehicle_class-name"],
+    "grids": [],
+    "groups": [],
+    "forms": [],
+    "uniques": [],
+    "billing": false,
+    "activeFldId": "vehicle_class-active"
+}

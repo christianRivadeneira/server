@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <!--link rel="stylesheet" href="plyr.css"-->
+        <style>
+            body {
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background: #015586;
+                background: -moz-linear-gradient(top, #015586 0%, #36898b 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #015586 0%,#36898b 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, #015586 0%,#36898b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#015586', endColorstr='#36898b',GradientType=0 ); /* IE6-9 */
+            }
+        </style>
+        <script>
+            function findGetParameter(parameterName) {
+                var result = null,
+                        tmp = [];
+                location.search
+                        .substr(1)
+                        .split("&")
+                        .forEach(function (item) {
+                            tmp = item.split("=");
+                            if (tmp[0] === parameterName)
+                                result = decodeURIComponent(tmp[1]);
+                        });
+                return result;
+            }
+
+            function setVideo() {
+                var video = document.getElementById('vid');
+                var source = document.createElement('source');
+                source.setAttribute('src', '../DownloadTuto?poolName=' + findGetParameter('poolName') + '&idBfile=' + findGetParameter('idBfile') + '&t=' + findGetParameter('t') + '&tz=' + findGetParameter('tz'));
+                video.appendChild(source);
+            }
+        </script>
+    </head>
+    <body onload="setVideo()">
+        <div style="width:100%; height:100%;  background-image: url('bg.png'); background-repeat: repeat-both;">
+            <div style="margin:auto; width:800px; height: 90vh; padding-top:20px">
+                <video style="height: 90vh;" id="vid" width="800" height="600" name="vid" autoplay controls>
+                </video> 
+            </div>
+        </div>
+        <!--script src="./plyr.js"></script>
+        <script>const player = new Plyr('#vid');</script-->
+    </body>
+</html>

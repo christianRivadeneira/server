@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+        <title>Financiación Covid</title>
+        <link rel="icon" type="image/png" href="favicon-16x16.png" />
+
+        <!-- Required Stylesheets -->
+        <link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="bootstrap-vue.css" />
+
+        <!-- Load polyfills to support older browsers -->
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"></script>
+
+        <link type="text/css" rel="stylesheet" href="bootstrap-vue-icons.min.css" />
+        <script src="vue.js"></script>
+        <script src="bootstrap-vue.js"></script>
+        <script src="axios.min.js"></script>
+        <script src="bootstrap-vue-icons.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.min.js"></script>
+    </head>
+
+    <body style="
+          background-color: #fff5f7;
+          background-image: url('./bg.png');
+          background-repeat: repeat;
+          ">
+        <!-- Our application root element -->
+        <div id="app">
+            <nav class="navbar navbar-dark" style="background-color: #f44336;">
+                <a class="navbar-brand" href="#">
+                    <img src="logo-montagas.png" width="117" height="35" class="d-inline-block align-top" alt="" />
+                </a>
+            </nav>
+            <b-card class="card w-50 d-flex container mt-5 mb-3">
+                <b-overlay variant="white" :show="showOverlay" rounded="sm" class="w-100 p-1 pb-2">
+                    <!--INFO DE LA FACTURA-->
+                    <b-card-text v-if="frm=='bill'">
+                        <h5>Datos de la Factura a Financiar</h5>
+                        <b-container>
+                            <b-row>
+                                <b-col class="col-sm p-0">
+                                    <b-form-group label="Referencia de Pago">
+                                        <b-form-input v-model="ref" v-mask="'####################'"></b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label="Número de Factura">
+                                        <b-form-input v-model="fac" v-mask="'####################'"></b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label="Total a Pagar">
+                                        <b-form-input v-model.number="total" v-mask="'####################'"></b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label="Número de Cuotas">
+                                        <select class="form-control" v-model.number="payments">
+                                            <option value="3">3</option>
+                                            <option value="6">6</option>
+                                            <option value="12">12</option>
+                                            <option value="24">24</option>
+                                            <option value="36">36</option>
+                                        </select>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col class="col-sm p-0">
+                                    <img src="highlight.png" width="360" height="190"
+                                         class="d-inline-block align-top ml-4 mr-0 mb-2" alt="" />
+                                </b-col>
+                            </b-row>
+
+                            <b-alert variant="danger" :show="billValidations.length>0">
+                                <ul>
+                                    <li v-for="val in billValidations">{{val}}</li>
+                                </ul>
+                            </b-alert>
+                        </b-container>
+                        <b-button variant="primary" v-on:click="query">Continuar
+                            <b-icon icon="arrow-right"></b-icon>
+                        </b-button>
+                    </b-card-text>
+
+                    <!--MAIL Y TELEFONO-->
+                    <b-card-text v-if="frm=='phone'">
+                        <div v-if="queryResult.error">
+                            <h5>Ocurrió un Problema</h5>
+                            <div class="alert alert-danger mt-2" role="alert">
+                                {{queryResult.error}}
+                                <div v-if="queryResult.hasDebt">
+                                    Puede realizar su pago en
+                                    <a href="https://www.psepagos.co/PSEHostingUI/ShowTicketOffice.aspx?ID=7548">este link</a>
+                                </div>
+                            </div>
+                            <b-button v-on:click="queryResult=null; frm='bill'">
+                                <b-icon icon="arrow-left"></b-icon>
+                                Volver
+                            </b-button>
+                        </div>
+                        <div v-else>
+                            <h5 class="mb-3">Información de Contacto</h5>
+                            <div class="mb-2">
+                                Con estos datos se le enviará un código de confirmación que necesitará en el paso final.
+                            </div>
+                            <b-form-group>
+                                <b-form-input placeholder="Nombres" v-model="names"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <the-mask class="form-control" v-model="phone" mask="3##-###-####" type="tel" :masked="true"
+                                          placeholder="Número Celular"></the-mask>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input placeholder="E-mail" v-model="mail"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-radio v-model="sendTo" name="sendTo" value="mail">Deseo recibir del código a mi
+                                    E-mail
+                                </b-form-radio>
+                                <b-form-radio v-model="sendTo" name="sendTo" value="sms">Deseo recibir del código en mi
+                                    celular
+                                </b-form-radio>
+                            </b-form-group>
+
+
+                            <h5 class="mt-1">Información de Financiación</h5>
+                            <div>
+                                La financiación de la factura se realizará con las siguientes
+                                condiciones:
+                            </div>
+
+                            <table class="w-75 mt-3 mb-3">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Capital a financiar:</th>
+                                        <td>{{queryResult.capital}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Intereses:</th>
+                                        <td>{{queryResult.interest}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Número de Cuotas:</th>
+                                        <td>
+                                            {{queryResult.payments}}
+                                            <span v-if="queryResult.payments!=payments" class="text-danger">*</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Valor de la Cuota:</th>
+                                        <td>{{queryResult.payment}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div v-if="queryResult.payments!=payments" class="text-danger">
+                                *Ajustamos el número de cuotas al máximo permitido para su
+                                categoría.
+                            </div>
+
+                            <b-form-group>
+                                <b-form-checkbox v-model.number="chkPromo">Me gustaría recibir información promocional de
+                                    Montagas S.A
+                                    E.S.P</b-form-checkbox>
+
+                                <b-form-checkbox v-model.number="chkData">He leido y acepto la
+                                    <a
+                                        href="https://montagas.com.co/wp-content/uploads/2018/06/POLITICA-DE-TRATAMIENTO-DE-DATOS-PERSONALES.pdf">política
+                                        de datos personales</a>
+                                </b-form-checkbox>
+                            </b-form-group>
+
+                            <b-alert variant="danger" :show="dataValidations.length>0">
+                                <ul>
+                                    <li v-for="val in dataValidations">{{val}}</li>
+                                </ul>
+                            </b-alert>
+
+                            <div class="mt-3">
+                                <b-button type="button" v-on:click="queryResult=null; frm='bill'" class="btn btn-secondary">
+                                    <b-icon icon="arrow-left"></b-icon>
+                                    Volver
+                                </b-button>
+                                <b-button variant="primary" v-on:click="sendCode">Aceptar
+                                    <b-icon icon="check"></b-icon>
+                                </b-button>
+                            </div>
+                        </div>
+                    </b-card-text>
+                    <!--CODIGO SECRETO-->
+                    <b-card-text v-if="frm=='code'">
+                        <h5>Último Paso</h5>
+                        <b-form-group>
+                            Ingrese el código que recibío en su <span v-if="sendTo=='mail'">e-mail</span><span
+                                v-else>celular</span>
+                            <b-form-input placeholder="Código Secreto" v-model="code"></b-form-input>
+                        </b-form-group>
+                        <b-form-group>
+                            ¿Cuales de los siguientes gasodomésticos usa?
+                            <b-form-checkbox v-model="stove">Estufa</b-form-checkbox>
+
+                            <b-form-checkbox v-model="heater">Calentador
+                            </b-form-checkbox>
+
+                            <b-form-checkbox v-model="chimney">Chimenea
+                            </b-form-checkbox>
+
+                            <b-form-checkbox v-model="washer">Lavadora
+                            </b-form-checkbox>
+                            <b-form-checkbox v-model="other">Otro
+                            </b-form-checkbox>
+                            <b-form-input placeholder="Otro" v-model="otherTxt" :disabled="!other"></b-form-input>
+
+                        </b-form-group>
+                        <div class="mt-2">
+                            Al presionar <b>continuar</b>, confirma que acepta el plan de
+                            financiación presentado.
+                        </div>
+                        <b-alert variant="danger" :show="codeValidations.length>0">
+                            <ul>
+                                <li v-for="val in codeValidations">{{val}}</li>
+                            </ul>
+                        </b-alert>
+                        <div class="mt-3">
+                            <b-button type="button" v-on:click="frm='phone'" class="btn btn-secondary">
+                                <b-icon icon="arrow-left"></b-icon>
+                                Volver
+                            </b-button>
+                            <b-button variant="primary" v-on:click="create">Aceptar
+                                <b-icon icon="check"></b-icon>
+                            </b-button>
+                        </div>
+
+                    </b-card-text>
+                    <!--FINAL-->
+                    <b-card-text v-if="frm=='end'">
+                        <div v-if="createResult.error">
+                            <h5>Ocurrió un Problema</h5>
+                            <div class="alert alert-danger mt-2" role="alert">
+                                {{createResult.error}}
+                            </div>
+                            <b-button v-on:click="createResult=null">
+                                <b-icon icon="arrow-left"></b-icon>
+                                Volver
+                            </b-button>
+                        </div>
+                        <div v-else>
+                            <h5>¡Registró Exitoso!</h5>
+                            <div>
+                                Su solicitud de financiación se registró y las cuotas pactadas se
+                                verán reflejadas a partir de la factura que recibirá en
+                                {{createResult.firstPayment}}.
+                            </div>
+                            <br />
+                            <div>
+                                Si desea financiar otras facturas deberá hacer este mismo proceso
+                                por cada una.
+                            </div>
+                            <br />
+                            <div>
+                                Puede cerrar esta ventana, para mayor información comuníquese sin
+                                costo a 018000914080 o #876
+                            </div>
+                        </div>
+                    </b-card-text>
+                </b-overlay>
+            </b-card>
+            <div>
+                <b-modal id="modal-1" ok-title="Aceptar" modal-title="Error" ok-only>
+
+                </b-modal>
+            </div>
+        </div>
+
+        <!-- Start running your app -->
+        <script>
+window.app = new Vue({
+    el: "#app",
+    data: {
+        address: "http://covid.montagas.com.co:8080/sigma/api/billCovidFinance/",
+        ref: "",
+        fac: "",
+        total: "",
+
+        payments: "6",
+        names: "",
+        phone: "",
+        mail: "",
+        chkPromo: false,
+        chkData: false,
+        billValidations: [],
+        dataValidations: [],
+        codeValidations: [],
+        queryResult: null,
+        createResult: null,
+        pollId: null,
+
+        stove: false,
+        heater: false,
+        chimney: false,
+        washer: false,
+        other: null,
+        otherTxt: null,
+        code: '',
+        frm: 'bill',
+        showOverlay: false,
+        sendTo: 'mail',
+        axiosError: null
+    },
+    methods: {
+        query: function () {
+            this.billValidations = [];
+            if (!this.ref) {
+                this.billValidations.push("Escriba una refencia de pago");
+            }
+            if (!this.fac) {
+                this.billValidations.push("Escriba un número de factura");
+            }
+            if (!this.total) {
+                this.billValidations.push("Escriba el total");
+            }
+            if (!this.payments) {
+                this.billValidations.push("Seleccione el número de cuotas");
+            }
+
+            if (this.billValidations.length == 0) {
+                //.replace(/[^0-9]/g, '')
+                this.showOverlay = true;
+                var vue = this;
+                axios.get(
+                        this.address + "query?ref=" + this.ref +
+                        "&fac=" + this.fac +
+                        "&total=" + this.total +
+                        "&payments=" + this.payments
+                        ).then(
+                        function (response) {
+                            vue.queryResult = response.data;
+                            vue.frm = 'phone';
+                            vue.showOverlay = false;
+                        }
+                ).catch(function (error) {
+                    vue.showOverlay = false;
+                    console.log(error.response.data);
+                    vue.$bvModal.msgBoxOk(error.response.data);
+                });
+            }
+        },
+
+        sendCode: function () {
+            this.dataValidations = [];
+            if (!this.names) {
+                this.dataValidations.push("Escriba su nombre");
+            }
+            if (!this.phone) {
+                this.dataValidations.push("Escriba un celular");
+            } else if (this.phone.length != 12) {
+                this.dataValidations.push("El celular debe tener 10 dígitos");
+            }
+            if (!this.mail) {
+                this.dataValidations.push("Escriba un e-mail");
+            } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.mail))) {
+                this.dataValidations.push("Escriba un e-mail válido");
+            }
+
+            if (!this.chkData) {
+                this.dataValidations.push(
+                        "Debe aceptar la política de datos personales"
+                        );
+            }
+
+            if (this.dataValidations.length == 0) {
+                var vue = this;
+                vue.showOverlay = true;
+                axios.get(
+                        this.address +
+                        "sendCode?billId=" + this.queryResult.billId +
+                        "&instId=" + this.queryResult.instId +
+                        "&names=" + this.names +
+                        "&phone=" + this.phone +
+                        "&mail=" + this.mail +
+                        "&promo=" + this.chkPromo +
+                        "&sendTo=" + this.sendTo
+                        ).then(function (response) {
+                    vue.pollId = response.data.response;
+                    vue.frm = 'code';
+                    vue.showOverlay = false;
+                    //vue.$bvModal.show("modal-1");
+                }).catch(function (error) {
+                    console.log(error);
+                    vue.showOverlay = false;
+                    vue.$bvModal.msgBoxOk(error.response.data);
+                });
+            }
+        },
+
+        create: function (bvModalEvt) {
+            bvModalEvt.preventDefault();
+            this.codeValidations = [];
+            if (!this.code) {
+                this.codeValidations.push("Escriba el código");
+            }
+            if (this.other && !this.otherTxt) {
+                this.codeValidations.push("Escriba el nombre del gasodomético 'Otro'");
+            }
+
+            if (!this.stove && !this.heater && !this.chimney && !this.washer && !this.other) {
+                this.codeValidations.push("Seleccione al menos un gasodoméstico");
+            }
+
+            if (this.codeValidations.length == 0) {
+                var vue = this;
+                vue.showOverlay = true;
+                axios.get(
+                        this.address +
+                        "create?pollId=" + this.pollId +
+                        "&payments=" + this.queryResult.payments +
+                        "&stove=" + this.stove +
+                        "&heater=" + this.heater +
+                        "&chimney=" + this.chimney +
+                        "&washer=" + this.washer +
+                        "&other=" + this.otherTxt +
+                        "&code=" + this.code
+                        ).then(function (response) {
+                    if (response.data.error) {
+                        vue.codeValidations = [];
+                        vue.codeValidations.push(response.data.error);
+                    } else {
+                        vue.createResult = response.data;
+                        vue.frm = "end";
+                    }
+                    vue.showOverlay = false;
+                }).catch(function (error) {
+                    console.log(error);
+                    vue.showOverlay = false;
+                    vue.$bvModal.msgBoxOk(error.response.data);
+                });
+            }
+        },
+    },
+});
+        </script>
+    </body>
+</html>
