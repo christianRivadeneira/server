@@ -557,7 +557,7 @@ public class BillingReportApi extends BaseAPI {
                 }
                 File f = BillFSSRIReports.getF1143(year, trimester, showOpenSpans, billCfg, conn, nameForm);
                 useDefault(conn);
-                return createResponse(f, billCfg.fssri + trimester + year + "GRF2xento.xls");
+                return createResponse(f, billCfg.fssri + trimester + year + "GRF2exento.xls");
             } else {
                 throw new Exception("No disponible en facturación tanques");
             }

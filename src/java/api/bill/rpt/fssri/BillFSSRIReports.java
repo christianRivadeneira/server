@@ -977,7 +977,7 @@ public class BillFSSRIReports {
                                 + "'',"
                                 + "'',"
                                 + "''"
-                                + "FROM bill_clie_cau cc "
+                                + " "
                                ).setParam(1, span.id).getRecords(conn);
                             
                             gm.setTime(span.consMonth);
@@ -1016,13 +1016,13 @@ public class BillFSSRIReports {
                         // Conexion a base de datos GRF1
                         if(nameForm.equalsIgnoreCase("GRF1"
                                 + "")){
-                            billsData = new MySQLQuery("SELECT c.code, "
+                            billsData = new MySQLQuery("SELECT , "
                                 + "'',"
                                 + "'',"
                                 + "'',"
                                 + "'',"
                                 + "'',"
-                                + "FROM bill_clie_cau cc "
+                                + " "
                                 ).setParam(1, span.id).getRecords(conn);
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
@@ -1120,12 +1120,16 @@ public class BillFSSRIReports {
         return tmp;
     }
     
-    /*================= GRF1 =====================*/  
+    /*================= GRF2 =====================*/  
      public static File getF1143(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
         WritableWorkbook writable=null;
+        //CADENA DE TEXTO CONECTADA A (grf2.xls)
+        String  CodFSSRI_Exentos, AñoFactura_Exento, MesFactura_Exento, Nombre_usuario, NIU_usuario, Tipo_usuario, Codigo_CIIU_Actividad, Nombre_Actividad, CodDANE, Consumo, Vr_Facturacion, CodFSSRIIncumbente_ContGas;
+        
         if(!nameForm.equalsIgnoreCase("GRF2")){
-            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "f1143.xls");
+            
+            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf2.xls");
         }
         else{
             writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf2.xls");
@@ -1177,7 +1181,7 @@ public class BillFSSRIReports {
                     Object[][] billsData =null;
                     for (int j = 0; j < spans.size(); j++) {
                         BillSpan span = spans.get(j);
-                           // Conexion a base de datos GRF1
+                           // Conexion a base de datos GRF2
                         if(nameForm.equalsIgnoreCase("format6")){
                             billsData = new MySQLQuery(""
                                 + "SELECT DISTINCT "
@@ -1189,7 +1193,7 @@ public class BillFSSRIReports {
                                 + "'',"
                                 + "'',"
                                 + "''"
-                                + "FROM bill_clie_cau cc "
+                                + "" //from
                                ).setParam(1, span.id).getRecords(conn);
                             
                             gm.setTime(span.consMonth);
@@ -1225,16 +1229,16 @@ public class BillFSSRIReports {
                                 row++;
                             }
                         }
-                        // Conexion a base de datos GRF1
+                        // Conexion a base de datos GRF2
                         if(nameForm.equalsIgnoreCase("GRF2"
                                 + "")){
-                            billsData = new MySQLQuery("SELECT c.code, "
+                            billsData = new MySQLQuery("SELECT , "
                                 + "'',"
                                 + "'',"
                                 + "'',"
                                 + "'',"
                                 + "'',"
-                                + "FROM bill_clie_cau cc "
+                                + " " // from
                                 ).setParam(1, span.id).getRecords(conn);
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
