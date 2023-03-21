@@ -908,6 +908,157 @@ public class BillFSSRIReports {
         return tmp;
     }
 
+  /*================= GRF1 =====================*/  
+     public static File getF14(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
+        File tmp = File.createTempFile("tmp", ".xls");
+        WritableWorkbook writable=null;
+        if(!nameForm.equalsIgnoreCase("GRF1")){
+            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "f6.xls");
+        }
+        else{
+            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
+        }
+        
+        WritableSheet s = writable.getSheet(0);
+        Date[] months = getMonths(year, trimester);
+
+        new MySQLQuery("USE sigma;").executeUpdate(conn);
+        List<BillMarket> mks = BillMarket.getAll(conn);
+        int row = 2;
+        for (int i = 0; i < mks.size(); i++) {
+            BillMarket mk = mks.get(i);
+            new MySQLQuery("USE sigma;").executeUpdate(conn);
+            List<BillInstance> insts = BillInstance.getBillingByMarket(mk.id, conn);
+            if (insts.size() > 0) {
+                GregorianCalendar gm = new GregorianCalendar();
+                gm.setTime(months[0]);
+                BillSpan mkSpan1 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, insts.get(0), conn);
+                gm.setTime(months[1]);
+                BillSpan mkSpan2 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, insts.get(0), conn);
+                gm.setTime(months[2]);
+                BillSpan mkSpan3 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, insts.get(0), conn);
+
+                for (int k = 0; k < insts.size(); k++) {
+                    BillInstance inst = insts.get(k);
+                    inst.useInstance(conn);
+
+                    gm.setTime(months[0]);
+                    BillSpan instSpan1 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, inst, conn);
+                    gm.setTime(months[1]);
+                    BillSpan instSpan2 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, inst, conn);
+                    gm.setTime(months[2]);
+                    BillSpan instSpan3 = BillSpan.getByMonth(gm.get(GregorianCalendar.YEAR), gm.get(GregorianCalendar.MONTH) + 1, inst, conn);
+
+                    List<BillSpan> spans = new ArrayList<>();
+                    if (instSpan1 != null && (!instSpan1.state.equals("cons") || showOpenSpans)) {
+                        compareSpans(mk, mkSpan1, instSpan1, months[0]);
+                        spans.add(instSpan1);
+                        if (instSpan2 != null && (!instSpan2.state.equals("cons") || showOpenSpans)) {
+                            compareSpans(mk, mkSpan2, instSpan2, months[1]);
+                            spans.add(instSpan2);
+                            if (instSpan3 != null && (!instSpan3.state.equals("cons") || showOpenSpans)) {
+                                compareSpans(mk, mkSpan3, instSpan3, months[2]);
+                                spans.add(instSpan3);
+                            }
+                        }
+                    }
+                    Object[][] billsData =null;
+                    for (int j = 0; j < spans.size(); j++) {
+                        BillSpan span = spans.get(j);
+                        //REALIZE CAMBIOS FABIAN 
+                        if(nameForm.equalsIgnoreCase("format6")){
+                            billsData = new MySQLQuery(""
+                                + "SELECT DISTINCT "
+                                + "'',"
+                                + "'',"
+                                + "'',"
+                                + "'',"
+                                + "'',"
+                                + "'',"
+                                + "'',"
+                                + "''"
+                                + "FROM bill_clie_cau cc "
+                                + "INNER JOIN bill_client_tank c ON c.id = cc.client_id "
+                                + "LEFT JOIN sigma.prov_ciiu_activity act ON CAST(act.code AS SIGNED) = CAST(cc.ciiu_code AS SIGNED) "
+                                + "WHERE cc.span_id = ?1 AND cc.val_exc_contrib > 0").setParam(1, span.id).getRecords(conn);
+                            
+                            gm.setTime(span.consMonth);
+                            for (Object[] billsRow : billsData) {
+                                String name = cast.asString(billsRow, 0);
+                                String code = cast.asString(billsRow, 1);
+                                String sector = cast.asString(billsRow, 2);
+                                int stratum = cast.asInt(billsRow, 3);
+                                String ciiuCode = cast.asString(billsRow, 4);
+                                String ciiuName = cast.asString(billsRow, 5);
+                                BigDecimal m3 = cast.asBigDecimal(billsRow, 6, true);
+                                BigDecimal cons = cast.asBigDecimal(billsRow, 7, true);
+
+                                if (sector.equals("c")) {
+                                    stratum = 7;
+                                } else if (sector.equals("i")) {
+                                    stratum = 8;
+                                }
+
+                                replace(s, row, "A", cfg.fssri);
+                                replace(s, row, "B", gm.get(GregorianCalendar.YEAR));
+                                replace(s, row, "C", gm.get(GregorianCalendar.MONTH) + 1);
+                                replace(s, row, "D", name);
+                                replace(s, row, "E", code);
+                                replace(s, row, "F", stratum);
+                                replace(s, row, "G", ciiuCode);
+                                replace(s, row, "H", ciiuName);
+                                replace(s, row, "I", inst.pobId);
+                                replace(s, row, "J", m3);
+                                replace(s, row, "K", cons);
+                                replace(s, row, "L", cfg.fssri);
+
+                                row++;
+                            }
+                        }
+                        if(nameForm.equalsIgnoreCase("GRF1"
+                                + "")){
+                            billsData = new MySQLQuery("SELECT c.code, "
+                                + "c.doc, "
+                                + "3, "
+                                + "DATE_FORMAT(bs.begin_date,'%d-%m-%Y'), "
+                                + "1, "
+                                + "cc.ciiu_code "
+                                + "FROM bill_clie_cau cc "
+                                + "INNER JOIN bill_client_tank c ON c.id = cc.client_id "
+                                + "LEFT JOIN sigma.prov_ciiu_activity act ON CAST(act.code AS SIGNED) = CAST(cc.ciiu_code AS SIGNED) "
+                                    + "LEFT JOIN bill_span bs ON bs.id =cc.span_id "
+                                + "WHERE cc.span_id = ?1 AND cc.val_exc_contrib > 0").setParam(1, span.id).getRecords(conn);
+                            gm.setTime(span.consMonth);
+                            for (Object[] billsRow : billsData) {
+                                String code = cast.asString(billsRow, 0);
+                                String doc = cast.asString(billsRow, 1);
+                                String typeGas = cast.asString(billsRow, 2);
+                                String fecha = cast.asString(billsRow, 3);
+                                String typeNovedad = cast.asString(billsRow, 4);
+                                String ciiu = cast.asString(billsRow, 5);
+
+                                replace(s, row, "A", code);
+                                replace(s, row, "B", doc);
+                                replace(s, row, "C", typeGas);
+                                replace(s, row, "D", fecha);
+                                replace(s, row, "E", typeNovedad);
+                                replace(s, row, "F", ciiu);
+
+                                row++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        writable.write();
+        writable.close();
+        return tmp;
+    }
+
+    
+  /*======================================*/
+    
     public static File getF7Old(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
         WritableWorkbook writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "f7Old.xls");

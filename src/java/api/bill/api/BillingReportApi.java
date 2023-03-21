@@ -488,7 +488,7 @@ public class BillingReportApi extends BaseAPI {
             return createResponse(ex);
         }
     }
-    
+  
     @POST
     @Path("/fssri/GRC8")
     public Response getGRC8(@QueryParam("year") int year, @QueryParam("trimester") int trimester, @QueryParam("showOpenSpans") boolean showOpenSpans, @QueryParam("nameForm") String nameForm) {
@@ -511,6 +511,35 @@ public class BillingReportApi extends BaseAPI {
             return createResponse(ex);
         }
     }
+    
+  /*================  GRF1 ==========================*/  
+    
+     @POST
+    @Path("/fssri/GRF1")
+    public Response getGRF1(@QueryParam("year") int year, @QueryParam("trimester") int trimester, @QueryParam("showOpenSpans") boolean showOpenSpans, @QueryParam("nameForm") String nameForm) {
+        try (Connection conn = getConnection()) {
+            getSession(conn);
+            BillInstance bi = getBillInstance();
+            if (bi.isNetInstance()) {
+                useBillInstance(conn);
+                BillCfg billCfg = new BillCfg().select(1, conn);
+                if (billCfg.fssri == null || billCfg.fssri.isEmpty()) {
+                    throw new Exception("Debe definir el código FSSRI");
+                }
+                File f = BillFSSRIReports.getF14(year, trimester, showOpenSpans, billCfg, conn, nameForm);
+                useDefault(conn);
+                return createResponse(f, billCfg.fssri + trimester + year + "GRF1xento.xls");
+            } else {
+                throw new Exception("No disponible en facturación tanques");
+            }
+        } catch (Exception ex) {
+            return createResponse(ex);
+        }
+    }
+    
+    
+  /*================== GRF1=======================*/
+    
     
     @POST
     @Path("/fssri/format7")
