@@ -912,8 +912,13 @@ public class BillFSSRIReports {
      public static File getF14(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
         WritableWorkbook writable=null;
+        
+         //CADENA DE TEXTO CONECTADA A (grf2.xls)
+        String  CodFSSRI_Exentos, AñoFactura_Exento, MesFactura_Exento, Nombre_usuario, NIU_usuario, Tipo_usuario, Codigo_CIIU_Actividad, Nombre_Actividad, CodDANE, Consumo, Vr_Facturacion, CodFSSRIIncumbente_ContGas;
+        
+        
         if(!nameForm.equalsIgnoreCase("GRF1")){
-            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "f6.xls");
+            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
         }
         else{
             writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
@@ -967,18 +972,7 @@ public class BillFSSRIReports {
                         BillSpan span = spans.get(j);
                            // Conexion a base de datos GRF1
                         if(nameForm.equalsIgnoreCase("format6")){
-                            billsData = new MySQLQuery(""
-                                + "SELECT DISTINCT "
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "''"
-                                + " "
-                               ).setParam(1, span.id).getRecords(conn);
+                            billsData = new MySQLQuery(null).setParam(1, span.id).getRecords(conn);
                             
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
@@ -1014,31 +1008,38 @@ public class BillFSSRIReports {
                             }
                         }
                         // Conexion a base de datos GRF1
-                        if(nameForm.equalsIgnoreCase("GRF1"
-                                + "")){
-                            billsData = new MySQLQuery("SELECT , "
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + " "
-                                ).setParam(1, span.id).getRecords(conn);
+                        if(nameForm.equalsIgnoreCase("format6")){
+                            billsData = new MySQLQuery(null).setParam(1, span.id).getRecords(conn);
+                            
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
-                                String code = cast.asString(billsRow, 0);
-                                String doc = cast.asString(billsRow, 1);
-                                String typeGas = cast.asString(billsRow, 2);
-                                String fecha = cast.asString(billsRow, 3);
-                                String typeNovedad = cast.asString(billsRow, 4);
-                                String ciiu = cast.asString(billsRow, 5);
+                                String name = cast.asString(billsRow, 0);
+                                String code = cast.asString(billsRow, 1);
+                                String sector = cast.asString(billsRow, 2);
+                                int stratum = cast.asInt(billsRow, 3);
+                                String ciiuCode = cast.asString(billsRow, 4);
+                                String ciiuName = cast.asString(billsRow, 5);
+                                BigDecimal m3 = cast.asBigDecimal(billsRow, 6, true);
+                                BigDecimal cons = cast.asBigDecimal(billsRow, 7, true);
 
-                                replace(s, row, "A", code);
-                                replace(s, row, "B", doc);
-                                replace(s, row, "C", typeGas);
-                                replace(s, row, "D", fecha);
-                                replace(s, row, "E", typeNovedad);
-                                replace(s, row, "F", ciiu);
+                                if (sector.equals("c")) {
+                                    stratum = 7;
+                                } else if (sector.equals("i")) {
+                                    stratum = 8;
+                                }
+
+                                replace(s, row, "A", cfg.fssri);
+                                replace(s, row, "B", gm.get(GregorianCalendar.YEAR));
+                                replace(s, row, "C", gm.get(GregorianCalendar.MONTH) + 1);
+                                replace(s, row, "D", name);
+                                replace(s, row, "E", code);
+                                replace(s, row, "F", stratum);
+                                replace(s, row, "G", ciiuCode);
+                                replace(s, row, "H", ciiuName);
+                                replace(s, row, "I", inst.pobId);
+                                replace(s, row, "J", m3);
+                                replace(s, row, "K", cons);
+                                replace(s, row, "L", cfg.fssri);
 
                                 row++;
                             }
@@ -1053,7 +1054,7 @@ public class BillFSSRIReports {
     }
 
     
-  /*================== GRF1 ====================*/
+  /*================== final GRF1 ====================*/
     
     public static File getF7Old(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
@@ -1181,20 +1182,9 @@ public class BillFSSRIReports {
                     Object[][] billsData =null;
                     for (int j = 0; j < spans.size(); j++) {
                         BillSpan span = spans.get(j);
-                           // Conexion a base de datos GRF2
+                           // Conexion a base de datos GRF1
                         if(nameForm.equalsIgnoreCase("format6")){
-                            billsData = new MySQLQuery(""
-                                + "SELECT DISTINCT "
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "''"
-                                + "" //from
-                               ).setParam(1, span.id).getRecords(conn);
+                            billsData = new MySQLQuery(null).setParam(1, span.id).getRecords(conn);
                             
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
@@ -1229,32 +1219,39 @@ public class BillFSSRIReports {
                                 row++;
                             }
                         }
-                        // Conexion a base de datos GRF2
-                        if(nameForm.equalsIgnoreCase("GRF2"
-                                + "")){
-                            billsData = new MySQLQuery("SELECT , "
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + "'',"
-                                + " " // from
-                                ).setParam(1, span.id).getRecords(conn);
+                        // Conexion a base de datos GRF1
+                        if(nameForm.equalsIgnoreCase("format6")){
+                            billsData = new MySQLQuery(null).setParam(1, span.id).getRecords(conn);
+                            
                             gm.setTime(span.consMonth);
                             for (Object[] billsRow : billsData) {
-                                String code = cast.asString(billsRow, 0);
-                                String doc = cast.asString(billsRow, 1);
-                                String typeGas = cast.asString(billsRow, 2);
-                                String fecha = cast.asString(billsRow, 3);
-                                String typeNovedad = cast.asString(billsRow, 4);
-                                String ciiu = cast.asString(billsRow, 5);
+                                String name = cast.asString(billsRow, 0);
+                                String code = cast.asString(billsRow, 1);
+                                String sector = cast.asString(billsRow, 2);
+                                int stratum = cast.asInt(billsRow, 3);
+                                String ciiuCode = cast.asString(billsRow, 4);
+                                String ciiuName = cast.asString(billsRow, 5);
+                                BigDecimal m3 = cast.asBigDecimal(billsRow, 6, true);
+                                BigDecimal cons = cast.asBigDecimal(billsRow, 7, true);
 
-                                replace(s, row, "A", code);
-                                replace(s, row, "B", doc);
-                                replace(s, row, "C", typeGas);
-                                replace(s, row, "D", fecha);
-                                replace(s, row, "E", typeNovedad);
-                                replace(s, row, "F", ciiu);
+                                if (sector.equals("c")) {
+                                    stratum = 7;
+                                } else if (sector.equals("i")) {
+                                    stratum = 8;
+                                }
+
+                                replace(s, row, "A", cfg.fssri);
+                                replace(s, row, "B", gm.get(GregorianCalendar.YEAR));
+                                replace(s, row, "C", gm.get(GregorianCalendar.MONTH) + 1);
+                                replace(s, row, "D", name);
+                                replace(s, row, "E", code);
+                                replace(s, row, "F", stratum);
+                                replace(s, row, "G", ciiuCode);
+                                replace(s, row, "H", ciiuName);
+                                replace(s, row, "I", inst.pobId);
+                                replace(s, row, "J", m3);
+                                replace(s, row, "K", cons);
+                                replace(s, row, "L", cfg.fssri);
 
                                 row++;
                             }
@@ -1267,9 +1264,8 @@ public class BillFSSRIReports {
         writable.close();
         return tmp;
     }
-
     
-  /*================== GRF2 ====================*/
+  /*================== final  GRF2 ====================*/
 
     public static File getF7(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");

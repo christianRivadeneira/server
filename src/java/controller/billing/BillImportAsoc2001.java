@@ -143,9 +143,26 @@ public class BillImportAsoc2001 {
             int billId = getBillId(ref, val);
             BigDecimal total = new MySQLQuery("SELECT SUM(p.value) FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_plan p WHERE p.account_deb_id = " + Accounts.BANCOS + " AND p.doc_id = " + billId + " AND p.doc_type = 'fac'").getAsBigDecimal(sigmaConn, true);
             Object[] billRow = new MySQLQuery("SELECT b.bill_span_id, b.payment_date, b.client_tank_id, b.active FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_bill b WHERE b.id = " + billId + ";").getRecord(sigmaConn);
-            if (billRow == null) {
+            if (billRow == null) {         
                 throw new Exception("La factura " + ref + " no se encontró en el sistema.");
-            } else {
+            }
+           
+            else if (total != val){
+                
+             
+                throw new Exception("El valor de factura no coincide " + val );
+            } 
+            
+            /*  Metodo para forzar el valor de facturas 
+        
+            if (total != val){
+                
+                throw new Exception("El valor de factura no coincide " + val );
+            } //if else {
+            
+             remplazarlo por  if (billRow == null) */
+          
+            else {
                 int clientId = MySQLQuery.getAsInteger(billRow[2]);
                 if (val.compareTo(total) == 0) {
                     if (MySQLQuery.getAsInteger(billRow[0]) != getRecaSpanId(refInfo.instId, clientId)) {
