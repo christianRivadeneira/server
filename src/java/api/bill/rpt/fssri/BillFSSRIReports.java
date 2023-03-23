@@ -909,7 +909,7 @@ public class BillFSSRIReports {
     }
 
   /*================= GRF1 =====================*/  
-     public static File getF14(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
+     public static File getGRF1(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
         WritableWorkbook writable=null;
         
@@ -917,12 +917,12 @@ public class BillFSSRIReports {
         String  CodFSSRI_Exentos, AñoFactura_Exento, MesFactura_Exento, Nombre_usuario, NIU_usuario, Tipo_usuario, Codigo_CIIU_Actividad, Nombre_Actividad, CodDANE, Consumo, Vr_Facturacion, CodFSSRIIncumbente_ContGas;
         
         
-        if(!nameForm.equalsIgnoreCase("GRF1")){
+//        if(!nameForm.equalsIgnoreCase
             writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
-        }
-        else{
-            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
-        }
+//        }
+//        else{
+//            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf1.xls");
+//        }
         
         WritableSheet s = writable.getSheet(0);
         Date[] months = getMonths(year, trimester);
@@ -1122,19 +1122,19 @@ public class BillFSSRIReports {
     }
     
     /*================= GRF2 =====================*/  
-     public static File getF1143(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
+     public static File getGRF2(int year, int trimester, boolean showOpenSpans, BillCfg cfg, Connection conn,String nameForm) throws Exception {
         File tmp = File.createTempFile("tmp", ".xls");
         WritableWorkbook writable=null;
         //CADENA DE TEXTO CONECTADA A (grf2.xls)
         String  CodFSSRI_Exentos, AñoFactura_Exento, MesFactura_Exento, Nombre_usuario, NIU_usuario, Tipo_usuario, Codigo_CIIU_Actividad, Nombre_Actividad, CodDANE, Consumo, Vr_Facturacion, CodFSSRIIncumbente_ContGas;
         
-        if(!nameForm.equalsIgnoreCase("GRF2")){
+        //if(!nameForm.equalsIgnoreCase("GRF2")){
             
             writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf2.xls");
-        }
-        else{
-            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf2.xls");
-        }
+//        }
+//        else{
+//            writable = Reports.getWorkbook(tmp, BillFSSRIReports.class, "grf2.xls");
+//        }
         
         WritableSheet s = writable.getSheet(0);
         Date[] months = getMonths(year, trimester);

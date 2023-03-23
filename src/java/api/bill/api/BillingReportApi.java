@@ -526,7 +526,7 @@ public class BillingReportApi extends BaseAPI {
                 if (billCfg.fssri == null || billCfg.fssri.isEmpty()) {
                     throw new Exception("Debe definir el código FSSRI");
                 }
-                File f = BillFSSRIReports.getF14(year, trimester, showOpenSpans, billCfg, conn, nameForm);
+                File f = BillFSSRIReports.getGRF1(year, trimester, showOpenSpans, billCfg, conn, nameForm);
                 useDefault(conn);
                 return createResponse(f, billCfg.fssri + trimester + year + "GRF1xento.xls");
             } else {
@@ -555,7 +555,7 @@ public class BillingReportApi extends BaseAPI {
                 if (billCfg.fssri == null || billCfg.fssri.isEmpty()) {
                     throw new Exception("Debe definir el código FSSRI");
                 }
-                File f = BillFSSRIReports.getF1143(year, trimester, showOpenSpans, billCfg, conn, nameForm);
+                File f = BillFSSRIReports.getGRF2(year, trimester, showOpenSpans, billCfg, conn, nameForm);
                 useDefault(conn);
                 return createResponse(f, billCfg.fssri + trimester + year + "GRF2exento.xls");
             } else {
