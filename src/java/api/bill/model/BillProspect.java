@@ -16,7 +16,7 @@ public class BillProspect extends BaseModel<BillProspect> {
     public String perType;
     public String doc;
     public String docCity;
-    public String contractNum;
+    public String contractNum; //================ numero de contrato=================
     public String meterNum;
     public BigDecimal firstReading;
     public String realStateCode;
@@ -121,7 +121,7 @@ public class BillProspect extends BaseModel<BillProspect> {
         q.setParam(2, perType);
         q.setParam(3, doc);
         q.setParam(4, docCity);
-        q.setParam(5, contractNum);
+        q.setParam(5, contractNum); // ================== numero de contrato =================
         q.setParam(6, meterNum);
         q.setParam(7, firstReading);
         q.setParam(8, realStateCode);
@@ -173,7 +173,7 @@ public class BillProspect extends BaseModel<BillProspect> {
         perType = MySQLQuery.getAsString(row[1]);
         doc = MySQLQuery.getAsString(row[2]);
         docCity = MySQLQuery.getAsString(row[3]);
-        contractNum = MySQLQuery.getAsString(row[4]);
+        contractNum = MySQLQuery.getAsString(row[4]); //================ numero de contrato ================
         meterNum = MySQLQuery.getAsString(row[5]);
         firstReading = MySQLQuery.getAsBigDecimal(row[6], false);
         realStateCode = MySQLQuery.getAsString(row[7]);

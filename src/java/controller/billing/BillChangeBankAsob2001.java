@@ -63,11 +63,15 @@ public class BillChangeBankAsob2001 {
                 }
                 BigDecimal total = new MySQLQuery("SELECT SUM(p.value) FROM " + BillingServlet.getDbName(instanceId) + ".bill_plan p WHERE p.account_deb_id = " + Accounts.BANCOS + " AND p.doc_id = " + billId + " AND p.doc_type = 'fac'").getAsBigDecimal(sigmaConn, true);
                 Object[] billRow = new MySQLQuery("SELECT b.bill_span_id, b.payment_date, b.client_tank_id, b.active FROM " + BillingServlet.getDbName(instanceId) + ".bill_bill b WHERE b.id = " + billId + ";").getRecord(sigmaConn);
-                 if (total != val) {
-                            
-                              throw new Exception("El valor de la factura no coincide " + val);
-                            
-                        }else {
+                if (billRow == null) {
+                    throw new Exception("La factura " + ref + " no se encontró en el sistema.");
+                } else {
+                    int clientId = MySQLQuery.getAsInteger(billRow[2]);
+                    if (val.compareTo(total) == 0) {
+                        if (billRow[1] == null) {
+                            String instNum = new MySQLQuery("SELECT num_install FROM " + BillingServlet.getDbName(instanceId) + ".bill_client_tank WHERE id = " + clientId).getAsString(sigmaConn);
+                            throw new Exception("El cupón " + ref + " del cliente " + instNum + " no está pagado");
+                        } else {
                             return new BillInfo(instanceId, billId);
                         }
                     } else {
