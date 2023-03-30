@@ -173,7 +173,7 @@ public class BillProspect extends BaseModel<BillProspect> {
         perType = MySQLQuery.getAsString(row[1]);
         doc = MySQLQuery.getAsString(row[2]);
         docCity = MySQLQuery.getAsString(row[3]);
-        contractNum = MySQLQuery.getAsString(row[4]); //================ numero de contrato ================
+       // contractNum = MySQLQuery.getAsString(row[4]); //================ numero de contrato ================
         meterNum = MySQLQuery.getAsString(row[5]);
         firstReading = MySQLQuery.getAsBigDecimal(row[6], false);
         realStateCode = MySQLQuery.getAsString(row[7]);

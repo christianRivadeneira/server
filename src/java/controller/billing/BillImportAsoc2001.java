@@ -115,7 +115,7 @@ public class BillImportAsoc2001 {
                     if (BillingServlet.getInst(refInfo.instId).isNetInstance()) {
                         //en redes el id con el que se genera el código del cliente es el del prospecto
                         //no se puede crear clientes sin que sean prospectos primero
-                        refInfo.id = new MySQLQuery("SELECT id FROM bill_client_tank c WHERE c.prospect_id = ?1").setParam(1, refInfo.id).getAsInteger(sigmaConn);
+                        refInfo.id = new MySQLQuery("SELECT id FROM "+ BillingServlet.getDbName(refInfo.instId) +".bill_client_tank c WHERE c.prospect_id = ?1").setParam(1, refInfo.id).getAsInteger(sigmaConn);
                     }
 
                     billId = new MySQLQuery(""
@@ -143,11 +143,11 @@ public class BillImportAsoc2001 {
             int billId = getBillId(ref, val);
             BigDecimal total = new MySQLQuery("SELECT SUM(p.value) FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_plan p WHERE p.account_deb_id = " + Accounts.BANCOS + " AND p.doc_id = " + billId + " AND p.doc_type = 'fac'").getAsBigDecimal(sigmaConn, true);
             Object[] billRow = new MySQLQuery("SELECT b.bill_span_id, b.payment_date, b.client_tank_id, b.active FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_bill b WHERE b.id = " + billId + ";").getRecord(sigmaConn);
-            if (billRow == null) {         
-                throw new Exception("La factura " + ref + " no se encontró en el sistema.");
+            if ((billRow == null) && (total != val)) {         
+                throw new Exception("La factura " + ref + " no se encontró en el sistema : <br> "+"El valor de factura no coincide:  "+val);
             }
-           
-            else if (total != val){
+           //REALIZE CAMBIOS AQUI, LE AUMENTE LA SEGUNDA CONDICION && (total != val) y lo concatene con (val)
+            /*else if (total != val){
                 
              
                 throw new Exception("El valor de factura no coincide " + val );
@@ -203,7 +203,7 @@ public class BillImportAsoc2001 {
                 String ref = asoc.getRefs().get(i);
                 BigDecimal val = asoc.getValues().get(i);
                 try {
-                    BillInfo bi = bif.getBillInfo(ref, val);
+                    BillInfo bi = bif.getBillInfo(ref, val); // valor de la factura y referencia 
                     int instId = bi.instanceId;
                     if (!iRefs.containsKey(instId)) {
                         iRefs.put(instId, 1);
