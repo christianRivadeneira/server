@@ -118,6 +118,10 @@ public class BillProspectApi extends BaseAPI {
                 getSession(conn);
                 useBillInstance(conn);
                 BillProspect p = new BillProspect().select(prospectId, conn);
+                int max = new MySQLQuery("SELECT MAX(CAST(contract_num AS SIGNED)) FROM bill_prospect").getAsInteger(conn);
+                int numContract = max+1; 
+                p.contractNum = "cn"+numContract;
+                p.update(conn);
 
                 if (getBillInstance().isNetInstance()) {
                     if (p.contractNum == null || p.contractNum.isEmpty()) {
@@ -150,7 +154,7 @@ public class BillProspectApi extends BaseAPI {
                 r.client.docType = p.docType;
                 r.client.doc = p.doc;
                 r.client.docCity = p.docCity;
-                r.client.contractNum = p.contractNum;
+                r.client.contractNum = "cn"+numContract;
                 r.client.realStateCode = p.realStateCode;
                 r.client.cadastralCode = p.cadastralCode;
                 r.client.firstName = p.firstName;

@@ -192,7 +192,7 @@ public class BillClientTank extends BaseModel<BillClientTank> {
         perType = MySQLQuery.getAsString(row[1]);
         doc = MySQLQuery.getAsString(row[2]);
         docCity = MySQLQuery.getAsString(row[3]);
-        //contractNum = MySQLQuery.getAsString(row[4]); //================ numero de contrato ================
+        contractNum = MySQLQuery.getAsString(row[4]); //================ numero de contrato ================
         realStateCode = MySQLQuery.getAsString(row[5]);
         cadastralCode = MySQLQuery.getAsString(row[6]);
         ciiu = MySQLQuery.getAsString(row[7]);
