@@ -143,9 +143,14 @@ public class BillImportAsoc2001 {
             int billId = getBillId(ref, val);
             BigDecimal total = new MySQLQuery("SELECT SUM(p.value) FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_plan p WHERE p.account_deb_id = " + Accounts.BANCOS + " AND p.doc_id = " + billId + " AND p.doc_type = 'fac'").getAsBigDecimal(sigmaConn, true);
             Object[] billRow = new MySQLQuery("SELECT b.bill_span_id, b.payment_date, b.client_tank_id, b.active FROM " + BillingServlet.getDbName(refInfo.instId) + ".bill_bill b WHERE b.id = " + billId + ";").getRecord(sigmaConn);
-            if ((billRow == null) && (total != val)) {         
-                throw new Exception("La factura " + ref + " no se encontró en el sistema : <br> "+"El valor de factura no coincide:  "+val);
+             if ((billRow == null) && (total != val)) {         
+                throw new Exception("La factura " + ref + " no se encontró en el sistema : <br> "+"<b><font color = '#ADD8E'>El valor de factura no coincide por un valor de:  ("+val+")</b>");
             }
+             /*
+             if (billRow == null){
+                 
+                  throw new Exception("La factura " + ref + " no se encontró en el sistema.");
+             }
            //REALIZE CAMBIOS AQUI, LE AUMENTE LA SEGUNDA CONDICION && (total != val) y lo concatene con (val)
             /*else if (total != val){
                 
